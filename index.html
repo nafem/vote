@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Pie Chart</title>
+        <script type="text/javascript" src="http://vote-brightsoft.rhcloud.com/js/jquery-1.7.2.min.js"></script>
+        <script type="text/javascript" src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+		<script type="text/javascript" src="http://vote-brightsoft.rhcloud.com/js/excanvas.js"></script>
+		<script type="text/javascript" src="http://vote-brightsoft.rhcloud.com/js/jquery.easy-pie-chart.js"></script>
+	<script src="/nowjs/now.js"></script>
+
+<script>
+var btnSwitch = false; 
+var values = new Array("80","45","35");
+var titles = new Array ("How many of you use another device while watching TV?", "How many of you are looking for something in relation to what you are watching?", "How many of you are browsing for products spotted in a show or ad?")
+var i = 0;
+
+
+$(document).ready(function(){
+
+
+ now.receiveMessage = function(yes, no){
+
+var percent = 0;
+
+if(yes+no > 0 ){
+ percent = Math.round((100/(yes+no))*yes);
+ }
+				$('.percentage-light').first().data('easyPieChart').update(percent);
+				$('.ItemSpan').first().text(percent+"%");
+				$('.label').first().text("Total votes: "+ (yes+no));
+  }
+
+    $("#send-button-reset").click(function(){
+	if(!btnSwitch){
+    $("#send-button-reset").prop('value', 'Next question');
+	$('.percentage-light').last().data('easyPieChart').update(values[i]);
+	$('.ItemSpan').last().text(values[i]+"%");
+	$('.question').text(titles[i]);
+	i++;
+	if(i >= values.length){
+i=0;
+	}
+	btnSwitch = true;
+	} else {
+	btnSwitch = false;
+	$("#send-button-reset").prop('value', 'Guardian survey');
+	$('.percentage-light').last().data('easyPieChart').update(0);
+	$('.ItemSpan').last().text("0%");
+	now.distributeMessage("0");
+	}
+  });
+  
+
+   
+});
+</script>
+
+        <link rel="stylesheet" type="text/css" href="http://vote-brightsoft.rhcloud.com/css/style.css" media="screen">
+		<link rel="stylesheet" type="text/css" href="http://vote-brightsoft.rhcloud.com/css/stylewhite.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="http://vote-brightsoft.rhcloud.com/css/jquery.easy-pie-chart.css" media="screen">
+
+</head>
+
+<body>
+<div class="question">How many of you use another device while watching TV?</div>
+
+        <div class="container">
+
+            <div class="chart wide">
+                <div class="percentage-light" data-percent="0" style="float:left;"><span class="ItemSpan">0%</span><div class="label"></div></div>
+                
+				 <div class="percentage-light" data-percent="0" style="float:left; margin-left:80px;"><span class="ItemSpan">0%</span><div class="label">Guardian survey</div></div>
+                
+               
+            </div>
+
+        </div>
+<div class="buttonDiv"><input type="button" value="Guardian survey" id="send-button-reset" class="button"></div>
+
+<script>
+
+
+
+            var initPieChart = function() {
+			var percent = 0;
+                $('.percentage').easyPieChart({
+                    animate: 1000
+                });
+                $('.percentage-light').easyPieChart({
+                    barColor: function(percent) {
+                        percent /= 100;
+                        return "rgb(" + Math.round(141 * (1-percent)) + ", " + Math.round(200 * percent) + ", 0)";
+                    },
+                    trackColor: '#666',
+                    scaleColor: false,
+                    lineCap: 'butt',
+                    lineWidth: 60,
+                    animate: 1000,
+					size:400
+                });
+            };
+initPieChart();
+
+</script>
+
+
+</body>
+</html>

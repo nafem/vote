@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<meta name="viewport" content="initial-scale=1">
+
+<head>
+<title>Pie Chart</title>
+        <script type="text/javascript" src="http://vote-brightsoft.rhcloud.com/js/jquery-1.7.2.min.js"></script>
+        <script type="text/javascript" src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+		<script type="text/javascript" src="http://vote-brightsoft.rhcloud.com/js/excanvas.js"></script>
+		<script type="text/javascript" src="http://vote-brightsoft.rhcloud.com/js/jquery.easy-pie-chart.js"></script>
+	<script src="/nowjs/now.js"></script>
+
+<script>
+$(document).ready(function(){
+
+ now.receiveMessage = function(yes, no){
+var percent = 0;
+if(yes+no > 0 ){
+ percent = Math.round((100/(yes+no))*yes);
+ }
+				 $('.percentage-light').data('easyPieChart').update(percent);
+				 $('.ItemSpan').text(percent+"%");
+				//$('.votes').text("Total votes: "+ (yes+no));
+  }
+  
+  $("#send-button-yes").click(function(){
+
+    now.distributeMessage("Yes");
+  });
+    $("#send-button-no").click(function(){
+    now.distributeMessage("No");
+  });
+  
+ 
+});
+</script>
+
+        <link rel="stylesheet" type="text/css" href="http://vote-brightsoft.rhcloud.com/css/style.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="http://vote-brightsoft.rhcloud.com/css/jquery.easy-pie-chart.css" media="screen">
+
+</head>
+
+<body><div class="fullwidth">
+<div class="logo"><img src="http://vote-brightsoft.rhcloud.com/images/Platform.jpg" border="0" alt="Platform"></div>
+</div>
+        <div class="container">
+		<div class="vbuttons">
+		<input type="image" src="http://vote-brightsoft.rhcloud.com/images/yes.jpg" alt="Yes" value="Yes" id="send-button-yes">
+		<input type="image" src="http://vote-brightsoft.rhcloud.com/images/no.jpg" alt="No" value="Yes" id="send-button-no">
+		</div>
+            <div class="chart">
+                <div class="percentage-light" data-percent="0"><span class="ItemSpan">0</span></div>
+                <div class="label"></div>
+            </div>
+
+
+        </div>
+
+<div id="messages" class="votes"></div>
+<script>
+
+
+
+            var initPieChart = function() {
+                $('.percentage').easyPieChart({
+                    animate: 1000
+                });
+                $('.percentage-light').easyPieChart({
+                    barColor: function(percent) {
+                        percent /= 100;
+                        return "rgb(" + Math.round(255 * (1-percent)) + ", " + Math.round(255 * percent) + ", 0)";
+                    },
+                    trackColor: '#666',
+                    scaleColor: false,
+                    lineCap: 'butt',
+                    lineWidth: 60,
+                    animate: 1000,
+					size:400
+                });
+            };
+initPieChart();
+
+</script>
+
+
+</body>
+</html>

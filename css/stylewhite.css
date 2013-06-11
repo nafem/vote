@@ -1,0 +1,31 @@
+body {
+
+	background-color:#fff;
+    color: #000;
+}
+
+
+
+
+.percentage,
+.label {
+
+    color: #000;
+
+}
+
+.wide {
+width:100%;
+}
+
+.buttonDiv {
+
+margin: 40px auto 0px auto;
+width: 250px;
+
+
+}
+
+.question {
+color: #999;
+}
